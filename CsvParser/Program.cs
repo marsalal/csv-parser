@@ -5,14 +5,11 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddTransient<IParserService, ParserService>();
 builder.Services.AddProblemDetails();
-// Add services to the container.
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -23,8 +20,6 @@ app.UseHttpsRedirection();
 
 app.MapPost("api/parse-csv", async ([FromServices] IParserService parser, [FromForm] IFormFile formFile) =>
 {
-    //var file = request.Form.Files[0];
-
     if (Path.GetExtension(formFile.FileName) != ".csv")
     {
         return Results.BadRequest("Only csv files are supported");
