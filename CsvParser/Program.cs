@@ -21,19 +21,20 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.MapPost("api/parse-csv", async ([FromServices] IParserService parser, HttpRequest request) =>
+app.MapPost("api/parse-csv", async ([FromServices] IParserService parser, [FromForm] IFormFile formFile) =>
 {
-    var file = request.Form.Files[0];
+    //var file = request.Form.Files[0];
 
-    if (Path.GetExtension(file.FileName) != ".csv")
+    if (Path.GetExtension(formFile.FileName) != ".csv")
     {
         return Results.BadRequest("Only csv files are supported");
     }
 
-    var parsedCsv = await parser.ParseCsvAsync(file);
+    var parsedCsv = await parser.ParseCsvAsync(formFile);
 
     return Results.Ok(parsedCsv);
 })
+.Accepts<IFormFile>("multipart/form-data")
 .Produces<string>(StatusCodes.Status200OK)
 .Produces(StatusCodes.Status400BadRequest)
 .WithName("ParseCsv")
@@ -41,4 +42,6 @@ app.MapPost("api/parse-csv", async ([FromServices] IParserService parser, HttpRe
 .WithOpenApi();
 
 app.Run();
+
+public partial class Program { }
 

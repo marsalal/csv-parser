@@ -19,6 +19,27 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
+    <PackageReference Include="Bogus" Version="34.0.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="7.0.2" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="resources\testfile.csv" />
+    <None Remove="UnitTests\" />
+    <None Remove="UnitTests\Services\" />
+    <None Remove="IntegrationTests\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="UnitTests\" />
+    <Folder Include="UnitTests\Services\" />
+    <Folder Include="IntegrationTests\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CsvParser\CsvParser.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="resources\testfile.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
 </Project>
